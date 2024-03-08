@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: auto; background-color: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="color: #007bff; text-align: center; margin-bottom: 20px;">System Login</h1>
+
+        {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> Please correct the following errors.
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% if form.username.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div style="margin-bottom: 20px;">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+
+            {% if form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.password.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div style="margin-bottom: 20px;">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+
+            <button style="display: block; width: 100%; padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+        </form>
+    </div>
+{% endblock %}

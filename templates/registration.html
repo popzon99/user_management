@@ -1,0 +1,99 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: auto; background-color: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="color: #007bff; text-align: center; margin-bottom: 20px;">Create New Account</h1>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>Message:</strong> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        <form method="POST" id="registrationForm" onsubmit="return validateRegistrationForm()">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+            </div>
+            <div style="margin-bottom: 15px;">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div style="margin-bottom: 15px;">
+                {{ form.role.label_tag }}
+                {{ form.role }}
+            </div>
+            <div style="margin-bottom: 15px;">
+                {{ form.country.label_tag }}
+                {{ form.country }}
+            </div>
+            <div style="margin-bottom: 15px;">
+                {{ form.nationality.label_tag }}
+                {{ form.nationality }}
+            </div>
+            <div style="margin-bottom: 15px;">
+                {{ form.mobile.label_tag }}
+                {{ form.mobile }}
+            </div>
+            <div style="margin-bottom: 20px;">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+            <div style="margin-bottom: 20px;">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
+            <button type="submit" style="display: block; width: 100%; padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Register</button>
+        </form>
+
+    </div>
+
+    <script>
+        function validateRegistrationForm() {
+            var name = document.getElementById('id_name').value;
+            var email = document.getElementById('id_email').value;
+            var role = document.getElementById('id_role').value;
+            var country = document.getElementById('id_country').value;
+            var nationality = document.getElementById('id_nationality').value;
+            var mobile = document.getElementById('id_mobile').value;
+            var password1 = document.getElementById('id_password1').value;
+            var password2 = document.getElementById('id_password2').value;
+    
+            // Check if any field is empty
+            if (name.trim() === '' || email.trim() === '' || role.trim() === '' || country.trim() === '' || nationality.trim() === '' || mobile.trim() === '' || password1.trim() === '' || password2.trim() === '') {
+                alert('All fields are required.');
+                return false;
+            }
+    
+            // Validate email format
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Invalid email format.');
+                return false;
+            }
+    
+            // Validate mobile number format
+            var mobileRegex = /^\d{10}$/;
+            if (!mobileRegex.test(mobile)) {
+                alert('Invalid mobile number format. It should be a 10-digit number.');
+                return false;
+            }
+    
+            // Add more validation logic for other fields...
+    
+            // Check if passwords match
+            if (password1 !== password2) {
+                alert('Passwords do not match.');
+                return false;
+            }
+    
+            // If validation passes, the form will be submitted
+            return true;
+        }
+    </script>
+    
+{% endblock %}
